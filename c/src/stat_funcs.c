@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <strings.h>
 
-#include <stat_funcs.h>
+#include "stat_funcs.h"
 
-const PERM char[] = " [---------]";
+const char PERM[] = " [---------]";
 
-FileType get_ftype(mode_t mode) {
+enum FileType get_ftype(mode_t mode) {
     enum FileType ft;
 
     switch (mode) {
@@ -21,52 +21,52 @@ FileType get_ftype(mode_t mode) {
         case S_ISSOCK(mode):
             return ft = SOCKET;
         case S_ISREG(mode):
-            return ft = Reg_FILE;
+            return ft = REG_FILE;
         default:
             return ft = UNK;
     }
 }
 
 char *get_perm(mode_t mode) {
-    char* prem = malloc(sizeof(char) *strlen(PERM));
+    char* perm = malloc(sizeof(char) * strlen(&PERM));
     strcpy(perm, PERM);
 
     if (S_IRUSR & mode) {
-        prem[2] = 'r';
+        perm[2] = 'r';
     }
 
     if (S_IWUSR & mode) {
-        prem[3] = 'w';
+        perm[3] = 'w';
     }
 
     if (S_IXUSR & mode) {
-        prem[4] = 'x';
+        perm[4] = 'x';
     }
 
     if (S_IRGRP & mode) {
-        prem[5] = 'r';
+        perm[5] = 'r';
     }
 
     if (S_IWGRP & mode) {
-        prem[6] = 'w';
+        perm[6] = 'w';
     }
 
     if (S_IXGRP & mode) {
-        prem[7] = 'x';
+        perm[7] = 'x';
     }
 
     if (S_IROTH & mode) {
-        prem[8] = 'r';
+        perm[8] = 'r';
     }
 
     if (S_IWOTH & mode) {
-        prem[9] = 'w';
+        perm[9] = 'w';
     }
 
     if (S_IXOTH & mode) {
-        prem[10] = 'x';
+        perm[10] = 'x';
     }
 
-    return prem;
+    return perm;
 }
 
